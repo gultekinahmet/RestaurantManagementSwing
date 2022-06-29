@@ -27,6 +27,10 @@ public class OrderForm extends javax.swing.JFrame {
     JLabel[] amountLabels;
     JSpinner[] spinnersArray;
     static double totalAmount = 0;
+    static double table1 = 0;
+    static double table2 = 0;
+    static double table3 = 0;
+    static double table4 = 0;
     
     
     /**
@@ -49,24 +53,14 @@ public class OrderForm extends javax.swing.JFrame {
     }
     
     
-    // This method convert all Amount Labels to empty string
-    private void cleanLabels(javax.swing.JLabel... labels) {
-       
-        for(javax.swing.JLabel label: labels) {
-            try {
-                label.setText("0");
-            }
-            catch(NullPointerException e) {
-                System.out.println("NullPointerException thrown!");
-            }
-        }
-    }
-    
     
     // This method convert all spinners to zero(0)
     private void cleanSpinners(javax.swing.JSpinner... spinners) {
+        // We connected the  spinner and label to each other, so that we only clean spinners and then
+        // all labels cleaned as well.
         
         for(javax.swing.JSpinner spinner: spinners) {
+            
             try {
                 spinner.setValue(0);
             }
@@ -77,6 +71,13 @@ public class OrderForm extends javax.swing.JFrame {
         // We have to assign zero to totalAmount because all spinners will be zero when this function calls.
         totalAmount = 0;
     } 
+    
+    
+    // This method takes the bill amount of specific table and assign it to the dialog button label
+    private void setBillFinalAmount(double tableAmount) {
+        jLabelFinalBillAmount.setText(String.valueOf(tableAmount));
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -90,7 +91,8 @@ public class OrderForm extends javax.swing.JFrame {
         jDialogBill = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabelBillAmount = new javax.swing.JLabel();
+        jLabelFinalBillAmount = new javax.swing.JLabel();
+        jButtonCompletePay = new javax.swing.JButton();
         jLabelWelcome = new javax.swing.JLabel();
         jLabelChooseYourOrder = new javax.swing.JLabel();
         jPanelSalads = new javax.swing.JPanel();
@@ -156,19 +158,31 @@ public class OrderForm extends javax.swing.JFrame {
         jDialogBill.setLocation(new java.awt.Point(400, 400));
         jDialogBill.setMinimumSize(new java.awt.Dimension(400, 300));
 
-        jPanel1.setBackground(new java.awt.Color(0, 255, 204));
-        jPanel1.setForeground(new java.awt.Color(0, 255, 204));
+        jPanel1.setBackground(new java.awt.Color(0, 255, 255));
+        jPanel1.setForeground(new java.awt.Color(0, 153, 153));
         jPanel1.setMaximumSize(new java.awt.Dimension(600, 400));
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 300));
         jPanel1.setSize(new java.awt.Dimension(400, 300));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("TABLE BILL ");
-        jLabel1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 0, 204)));
+        jLabel1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 0, 204)));
 
-        jLabelBillAmount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBillAmount.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 204, 204), new java.awt.Color(0, 153, 153)));
+        jLabelFinalBillAmount.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabelFinalBillAmount.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelFinalBillAmount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelFinalBillAmount.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(153, 0, 204), java.awt.Color.yellow));
+
+        jButtonCompletePay.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jButtonCompletePay.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonCompletePay.setText("Complete Pay");
+        jButtonCompletePay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCompletePayActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -180,18 +194,23 @@ public class OrderForm extends javax.swing.JFrame {
                         .addGap(43, 43, 43)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jLabelBillAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                        .addGap(73, 73, 73)
+                        .addComponent(jLabelFinalBillAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jButtonCompletePay, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(58, 58, 58))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                .addComponent(jLabelBillAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addGap(33, 33, 33)
+                .addComponent(jLabelFinalBillAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(jButtonCompletePay, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout jDialogBillLayout = new javax.swing.GroupLayout(jDialogBill.getContentPane());
@@ -630,6 +649,11 @@ public class OrderForm extends javax.swing.JFrame {
 
         jComboBoxTablesNo.setBackground(new java.awt.Color(102, 102, 102));
         jComboBoxTablesNo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Table1", "Table2", "Table3", "Table4" }));
+        jComboBoxTablesNo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxTablesNoItemStateChanged(evt);
+            }
+        });
 
         jLabelTableName.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         jLabelTableName.setText("Table");
@@ -796,6 +820,14 @@ public class OrderForm extends javax.swing.JFrame {
     
     private void jButtonCompleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompleteOrderActionPerformed
          jLabelTotalAmount.setText("Total Amount: " + String.valueOf(totalAmount));
+         String item = (String) jComboBoxTablesNo.getSelectedItem();
+         switch(item) {
+            case "Table1" -> table1 += totalAmount;
+            case "Table2" -> table2 += totalAmount;
+            case "Table3" -> table3 += totalAmount;
+            case "Table4" -> table4 += totalAmount;
+            default -> System.out.println("There is an error fetching the comboBox item");
+        }
          
     }//GEN-LAST:event_jButtonCompleteOrderActionPerformed
 
@@ -804,22 +836,46 @@ public class OrderForm extends javax.swing.JFrame {
                jSpinnerGardenSalad, jSpinnerBltSalad, jSpinnerCaesarSalad, 
                jSpinnerWater, jSpinnerCola, jSpinnerSprite,
                jSpinnerHessEstate, jSpinnerCatenaMalbec, jSpinnerMontereyPinot);
+       jLabelTotalAmount.setText("Total Amount: 0" );
     }//GEN-LAST:event_jButtonEnterNewOrderActionPerformed
 
     private void jButtonCalculateBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalculateBillActionPerformed
         jDialogBill.setVisible(true);
+        String item = (String) jComboBoxTablesNo.getSelectedItem();
+        
+        switch(item) {
+            case "Table1" -> setBillFinalAmount(table1);
+            case "Table2" -> setBillFinalAmount(table2);
+            case "Table3" -> setBillFinalAmount(table3);
+            case "Table4" -> setBillFinalAmount(table4);
+            default -> setBillFinalAmount(0);
+        }
         
     }//GEN-LAST:event_jButtonCalculateBillActionPerformed
 
-    
-    private void calculateTotalAmount(javax.swing.JLabel... labels) {
-        totalAmount = 0;
-        
-        for(javax.swing.JLabel label: labels) {
-            totalAmount += Integer.valueOf(label.getText());
+    private void jButtonCompletePayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompletePayActionPerformed
+        String item = (String) jComboBoxTablesNo.getSelectedItem();
+        switch(item) {
+            case "Table1" -> table1 = 0;
+            case "Table2" -> table2 = 0;
+            case "Table3" -> table3 = 0;
+            case "Table4" -> table4 = 0;
+            default -> System.out.println("There is an error fetching the comboBox item");
         }
-       jLabelTotalAmount.setText("Total Amount: " + totalAmount);
-    }
+        jLabelFinalBillAmount.setText("Thank you!");
+        
+    }//GEN-LAST:event_jButtonCompletePayActionPerformed
+
+    private void jComboBoxTablesNoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxTablesNoItemStateChanged
+        // We need to clean our spinner and labels when the comboBox item changed. 
+        cleanSpinners(jSpinnerVindaloo, jSpinnerArroz, jSpinnerSardinhas, 
+               jSpinnerGardenSalad, jSpinnerBltSalad, jSpinnerCaesarSalad, 
+               jSpinnerWater, jSpinnerCola, jSpinnerSprite,
+               jSpinnerHessEstate, jSpinnerCatenaMalbec, jSpinnerMontereyPinot);
+        jLabelTotalAmount.setText("Total Amount: 0" );
+        
+    }//GEN-LAST:event_jComboBoxTablesNoItemStateChanged
+
     
     
     
@@ -861,6 +917,7 @@ public class OrderForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCalculateBill;
     private javax.swing.JButton jButtonCompleteOrder;
+    private javax.swing.JButton jButtonCompletePay;
     private javax.swing.JButton jButtonEnterNewOrder;
     private javax.swing.JComboBox<String> jComboBoxTablesNo;
     private javax.swing.JDialog jDialogBill;
@@ -871,7 +928,6 @@ public class OrderForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelAmountWines;
     private javax.swing.JLabel jLabelArrozAmount;
     private javax.swing.JLabel jLabelArrozDePato;
-    private javax.swing.JLabel jLabelBillAmount;
     private javax.swing.JLabel jLabelBltSalad;
     private javax.swing.JLabel jLabelBltSaladAmount;
     private javax.swing.JLabel jLabelCaesarSalad;
@@ -881,6 +937,7 @@ public class OrderForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelChooseYourOrder;
     private javax.swing.JLabel jLabelCola;
     private javax.swing.JLabel jLabelColaAmount;
+    private javax.swing.JLabel jLabelFinalBillAmount;
     private javax.swing.JLabel jLabelGardenSalad;
     private javax.swing.JLabel jLabelGardenSaladAmount;
     private javax.swing.JLabel jLabelHessEstate;
