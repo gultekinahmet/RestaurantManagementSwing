@@ -817,7 +817,8 @@ public class OrderForm extends javax.swing.JFrame {
         setAmountLabelFromSpinner(jSpinnerMontereyPinot, jLabelMontereyPinotAmount, montereyPinotPrice);
     }//GEN-LAST:event_jSpinnerMontereyPinotStateChanged
 
-    
+    This function will change and use for other event
+    /*
     private void jButtonCompleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompleteOrderActionPerformed
          jLabelTotalAmount.setText("Total Amount: " + String.valueOf(totalAmount));
          String item = (String) jComboBoxTablesNo.getSelectedItem();
@@ -828,7 +829,7 @@ public class OrderForm extends javax.swing.JFrame {
             case "Table4" -> table4 += totalAmount;
             default -> System.out.println("There is an error fetching the comboBox item");
         }
-         
+         */
     }//GEN-LAST:event_jButtonCompleteOrderActionPerformed
 
     private void jButtonEnterNewOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterNewOrderActionPerformed
